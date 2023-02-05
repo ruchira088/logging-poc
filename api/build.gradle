@@ -62,7 +62,7 @@ processResources {
 release {
     preTagCommitMessage = 'Setting release version: '
     newVersionCommitMessage = 'Setting development version: '
-    pushReleaseVersionBranch = "main"
+    pushReleaseVersionBranch = 'main'
 
     git {
         requireBranch.set('dev')
@@ -71,4 +71,8 @@ release {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+distTar {
+    archiveFileName = 'api.tar'
 }

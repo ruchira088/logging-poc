@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'javalin-seed'
-include('app')
+include('api')
