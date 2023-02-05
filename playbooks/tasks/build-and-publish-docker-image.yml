@@ -20,7 +20,7 @@
   import_tasks: tasks/install-dependencies.yml
 
 - name: Clean and build gradle project
-  shell: cd ../ && ./gradlew :{{ app }}:clean :{{ app }}:distTar
+  shell: cd ../ && ./gradlew :{{ app }}:clean :{{ app }}:assemble && ./gradlew :{{ app }}:distTar
 
 - name: Generate the Dockerfile
   template:
@@ -63,4 +63,3 @@
 
 - debug:
     msg: Completed Docker image built app={{ app }}
-
