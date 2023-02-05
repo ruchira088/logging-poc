@@ -16,8 +16,8 @@ spec:
         branch: {{ git_branch }}
     spec:
       containers:
-        - name: javalin-seed-container
-          image: ghcr.io/ruchira088/javalin-seed:{{ git_branch }}-{{ git_commit }}
+        - name: javalin-seed-api-container
+          image: ghcr.io/ruchira088/javalin-seed-api:{{ git_branch }}-{{ git_commit }}
           envFrom:
             - configMapRef:
                 name: javalin-seed-data-config-map
