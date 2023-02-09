@@ -26,12 +26,12 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/gradle-wrapper.properties') }}-${{ hashFiles('**/gradle.properties') }}
           path: |
             ~/.gradle
           restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-            ${{ runner.os }}-
+            ${{ runner.os }}-${{ hashFiles('**/gradle-wrapper.properties') }}
+            ${{ runner.os }}
 
       - name: Assemble
         run: ./gradlew assemble
@@ -79,12 +79,12 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/gradle-wrapper.properties') }}-${{ hashFiles('**/gradle.properties') }}
           path: |
             ~/.gradle
           restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-            ${{ runner.os }}-
+            ${{ runner.os }}-${{ hashFiles('**/gradle-wrapper.properties') }}
+            ${{ runner.os }}
 
       - name: Build and publish Docker images
         run: ansible-playbook playbooks/build-and-publish-docker-images.yml
