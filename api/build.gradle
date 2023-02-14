@@ -51,13 +51,6 @@ task buildInformation {
 
         file.withWriter('UTF-8') { writer ->
             writer.write(buildInfo)
-            writer.flush()
-        }
-
-        if (file.exists()) {
-            println("Build information generated")
-        } else {
-            throw new GradleException("Unable to create build information JSON")
         }
     }
 }
