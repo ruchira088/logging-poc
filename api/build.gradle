@@ -4,6 +4,7 @@ plugins {
     id 'application'
     id 'com.github.ben-manes.versions' version "$dependencyUpdatesPluginVersion"
     id 'net.researchgate.release' version "$releasePluginVersion"
+    id 'jacoco'
 }
 
 group = 'com.ruchij'
@@ -75,4 +76,8 @@ tasks.named('test') {
 
 distTar {
     archiveFileName = 'api.tar'
+}
+
+jacocoTestReport {
+    dependsOn test
 }
