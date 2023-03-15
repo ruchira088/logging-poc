@@ -33,7 +33,7 @@ public class JsonUtils {
 
 	private static class InstantDeserializer extends JsonDeserializer<Instant> {
 		@Override
-		public Instant deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
+		public Instant deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
 			String isoTimestamp = jsonParser.getValueAsString();
 			return Instant.parse(isoTimestamp);
 		}
