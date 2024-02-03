@@ -28,10 +28,10 @@ public class App {
     }
 
     public static Javalin javalin(Routes routes) {
-        return Javalin.create(javalinConfig ->
-                javalinConfig.jsonMapper(new JavalinJackson(JsonUtils.objectMapper))
-            )
-            .routes(routes);
+        return Javalin.create(javalinConfig -> {
+              javalinConfig.jsonMapper(new JavalinJackson(JsonUtils.objectMapper, true));
+              javalinConfig.router.apiBuilder(routes);
+          });
     }
 
     private static Routes routes(ApplicationConfiguration applicationConfiguration, Properties properties, Clock clock)
