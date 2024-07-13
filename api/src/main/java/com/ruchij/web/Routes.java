@@ -26,6 +26,6 @@ public class Routes implements EndpointGroup, Handler {
     }
 
     @Override
-    public void handle(@NotNull Context ctx) throws Exception {
+    public void handle(@NotNull Context ctx) {
     }
 }

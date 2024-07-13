@@ -3,7 +3,7 @@
   connection: local
 
   vars:
-    repo_name: photo-album-front-end
+    repo_name: javalin-seed
 
   tasks:
     - name: Install dependencies
