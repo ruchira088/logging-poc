@@ -42,7 +42,22 @@ public class HealthServiceImpl implements HealthService {
 
     public static HealthServiceImpl create(Clock clock, Properties properties) throws IOException {
         InputStream inputStream = HealthServiceImpl.class.getClassLoader().getResourceAsStream("build-information.json");
-        BuildInformation buildInformation = JsonUtils.objectMapper.readValue(inputStream, BuildInformation.class);
+        BuildInformation buildInformation;
+
+        if (inputStream == null) {
+            buildInformation = new BuildInformation(
+                    "javalin-seed",
+                    "com.ruchij",
+                    "UNKNOWN",
+                    "UNKNOWN",
+                    null,
+                    "UNKNOWN",
+                    "UNKNOWN"
+
+            );
+        } else {
+            buildInformation = JsonUtils.objectMapper.readValue(inputStream, BuildInformation.class);
+        }
 
         return new HealthServiceImpl(clock, properties, buildInformation);
     }
