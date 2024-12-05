@@ -94,7 +94,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-southeast-2
-          role-session-name: javalin-seed
+          role-session-name: javalin-seed-publish
           role-to-assume: "arn:aws:iam::365562660444:role/github_iam_role"
 
       - name: Build and publish Docker images
@@ -132,7 +132,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-southeast-2
-          role-session-name: javalin-seed
+          role-session-name: javalin-seed-deploy
           role-to-assume: "arn:aws:iam::365562660444:role/github_iam_role"
 
       - name: Deploy to K8s server
