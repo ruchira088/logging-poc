@@ -39,22 +39,6 @@ jobs:
       - name: Execute test suite
         run: ./gradlew test
 
-      - name: Send failure Slack message
-        if: failure()
-        uses: slackapi/slack-github-action@v1.25.0
-        with:
-          channel-id: C02HYP398KS
-          slack-message: |
-            :x: *FAILURE*
-            *Job:* compile-and-test
-            *${{ github.repository }}*
-            *Branch:* ${{ github.ref }}
-            *Commit:* `${{ github.sha }}`
-            *Last Commit Message:* ${{ github.event.head_commit.message }}
-            *URL:* ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-
   publish-docker-image:
     runs-on: ubuntu-latest
     permissions:
@@ -100,22 +84,6 @@ jobs:
       - name: Build and publish Docker images
         run: ansible-playbook playbooks/build-and-publish-docker-images.yml
 
-      - name: Send failure Slack message
-        if: failure()
-        uses: slackapi/slack-github-action@v1.25.0
-        with:
-          channel-id: C02HYP398KS
-          slack-message: |
-            :x: *FAILURE*
-            *Job:* publish-docker-image
-            *${{ github.repository }}*
-            *Branch:* ${{ github.ref }}
-            *Commit:* `${{ github.sha }}`
-            *Last Commit Message:* ${{ github.event.head_commit.message }}
-            *URL:* ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-
   deploy-to-k8s:
     runs-on: ubuntu-latest
     permissions:
@@ -138,32 +106,18 @@ jobs:
       - name: Deploy to K8s server
         run: ansible-playbook -vvv playbooks/k8s-deploy.yml
 
-      - name: Send failure Slack message
-        if: failure()
-        uses: slackapi/slack-github-action@v1.25.0
-        with:
-          channel-id: C02HYP398KS
-          slack-message: |
-            :x: *FAILURE*
-            *${{ github.repository }}*
-            *Job:* deploy-to-k8s
-            *Branch:* ${{ github.ref }}
-            *Commit:* `${{ github.sha }}`
-            *Last Commit Message:* ${{ github.event.head_commit.message }}
-            *URL:* ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  send-notification:
+    runs-on: ubuntu-latest
+    if: always()
 
-      - name: Send successful Slack message
-        uses: slackapi/slack-github-action@v1.25.0
-        with:
-          channel-id: C02HYP398KS
-          slack-message: |
-            :white_check_mark: *SUCCESS*
-            *${{ github.repository }}*
-            *Branch:* ${{ github.ref }}
-            *Commit:* `${{ github.sha }}`
-            *Last Commit Message:* ${{ github.event.head_commit.message }}
-            *URL:* ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+    permissions:
+      id-token: write
+
+    needs:
+      - compile-and-test
+      - publish-docker-image
+      - deploy-to-k8s
+
+    steps:
+      - name: Send Slack notification
+        uses: ruchira088/slack-github-action@v1
