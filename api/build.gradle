@@ -21,8 +21,9 @@ dependencies {
     )
 
     testImplementation(
-            "org.junit.jupiter:junit-jupiter:$junitVersion",
-            "org.junit.platform:junit-platform-launcher:$junitPlatformVersion",
+            platform("org.junit:junit-bom:$junitVersion"),
+            'org.junit.jupiter:junit-jupiter',
+            'org.junit.platform:junit-platform-launcher',
             "org.mockito:mockito-core:$mockitoVersion"
     )
 }
