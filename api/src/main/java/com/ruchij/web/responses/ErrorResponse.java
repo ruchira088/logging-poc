@@ -1,4 +1,4 @@
 package com.ruchij.web.responses;
 
-public record ErrorResponse(String errorMessage) {
+public record ErrorResponse(String error) {
 }

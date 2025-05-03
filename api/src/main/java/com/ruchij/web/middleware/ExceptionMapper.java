@@ -11,6 +11,7 @@ import io.javalin.http.HttpStatus;
 public class ExceptionMapper {
     private static <E extends Exception> ExceptionHandler<E> handle(HttpStatus httpStatus) {
         return (exception, context) -> {
+            context.attribute("exception", exception);
             context.status(httpStatus).json(new ErrorResponse(exception.getMessage()));
         };
     };
@@ -23,5 +24,18 @@ public class ExceptionMapper {
         app.exception(ResourceConflictException.class, ExceptionMapper.handle(HttpStatus.CONFLICT));
 
         app.exception(Exception.class, ExceptionMapper.handle(HttpStatus.INTERNAL_SERVER_ERROR));
+
+        app.error(HttpStatus.NOT_FOUND, context -> {
+            // No matching routes were found
+            if (context.matchedPath().equals("*")) {
+                context
+                    .status(HttpStatus.NOT_FOUND)
+                    .json(
+                        new ErrorResponse(
+                            "No matching routes were found for %s %s".formatted(context.method(), context.path())
+                        )
+                    );
+            }
+        });
     }
 }
