@@ -31,6 +31,14 @@ public class App {
         return Javalin.create(javalinConfig -> {
             javalinConfig.useVirtualThreads = true;
             javalinConfig.jsonMapper(new JavalinJackson(JsonUtils.objectMapper, true));
+
+            javalinConfig.bundledPlugins.enableCors(cors -> {
+                cors.addRule(rule -> {
+                    rule.allowHost("http://localhost:5173", "http://localhost:3000", "*.ruchij.com");
+                    rule.allowCredentials = true;
+                });
+            });
+
             javalinConfig.router.apiBuilder(routes);
           });
     }
