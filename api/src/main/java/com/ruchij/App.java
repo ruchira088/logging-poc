@@ -9,16 +9,24 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import io.javalin.Javalin;
 import io.javalin.json.JavalinJackson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.time.Clock;
 import java.util.Properties;
 
 public class App {
+    private static final Logger logger = LoggerFactory.getLogger(App.class);
+
     public static void main(String[] args) throws IOException {
         Config config = ConfigFactory.load();
         ApplicationConfiguration applicationConfiguration = ApplicationConfiguration.parse(config);
 
+        run(applicationConfiguration);
+    }
+
+    public static void run(ApplicationConfiguration applicationConfiguration) throws IOException {
         Properties properties = System.getProperties();
         Clock clock = Clock.systemUTC();
 
@@ -27,6 +35,8 @@ public class App {
         Javalin app = javalin(routes);
         ExceptionMapper.handle(app);
         app.start(applicationConfiguration.httpConfiguration().port());
+
+        logger.info("Server is listening on port {}...", applicationConfiguration.httpConfiguration().port());
     }
 
     public static Javalin javalin(Routes routes) {
