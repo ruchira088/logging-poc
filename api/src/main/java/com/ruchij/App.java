@@ -49,6 +49,9 @@ public class App {
             javalinConfig.useVirtualThreads = true;
             javalinConfig.jsonMapper(new JavalinJackson(JsonUtils.objectMapper, true));
 
+            // wait 7 seconds for existing requests to finish
+            javalinConfig.jetty.modifyServer(server -> server.setStopTimeout(7_000));
+
             javalinConfig.bundledPlugins.enableCors(cors -> {
                 cors.addRule(rule -> {
                     rule.allowHost("http://localhost:5173", "http://localhost:3000", "*.ruchij.com");
