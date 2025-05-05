@@ -37,6 +37,11 @@ public class App {
         app.start(applicationConfiguration.httpConfiguration().port());
 
         logger.info("Server is listening on port {}...", applicationConfiguration.httpConfiguration().port());
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            logger.info("Shutting down server...");
+            app.stop();
+        }));
     }
 
     public static Javalin javalin(Routes routes) {
