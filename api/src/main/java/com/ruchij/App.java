@@ -59,7 +59,9 @@ public class App {
                 cors.addRule(rule -> {
                     List<String> allAllowedOrigins = new ArrayList<String>(allowedOrigins);
                     allAllowedOrigins.addAll(List.of("http://localhost:5173", "http://localhost:3000"));
+
                     rule.allowHost("*.ruchij.com", allAllowedOrigins.toArray(String[]::new));
+
                     rule.allowCredentials = true;
                 });
             });
