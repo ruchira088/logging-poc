@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.time.Clock;
+import java.util.List;
 import java.util.Properties;
 
 public class App {
@@ -32,7 +33,7 @@ public class App {
 
         Routes routes = routes(applicationConfiguration, properties, clock);
 
-        Javalin app = javalin(routes);
+        Javalin app = javalin(routes, applicationConfiguration.httpConfiguration().allowedOrigins());
         ExceptionMapper.handle(app);
         app.start(applicationConfiguration.httpConfiguration().port());
 
@@ -45,7 +46,7 @@ public class App {
         }));
     }
 
-    public static Javalin javalin(Routes routes) {
+    public static Javalin javalin(Routes routes, List<String> allowedOrigins) {
         return Javalin.create(javalinConfig -> {
             javalinConfig.useVirtualThreads = true;
             javalinConfig.jsonMapper(new JavalinJackson(JsonUtils.objectMapper, true));
@@ -56,6 +57,7 @@ public class App {
             javalinConfig.bundledPlugins.enableCors(cors -> {
                 cors.addRule(rule -> {
                     rule.allowHost("http://localhost:5173", "http://localhost:3000", "*.ruchij.com");
+                    rule.allowHost("*.ruchij.com", allowedOrigins.toArray(String[]::new));
                     rule.allowCredentials = true;
                 });
             });

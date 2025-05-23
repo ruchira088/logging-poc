@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.Instant;
+import java.util.List;
 
 import static com.ruchij.utils.JsonUtils.objectMapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,7 +36,7 @@ class ServiceRouteTest {
 
         Routes routes = new Routes(healthService);
 
-        JavalinTest.test(App.javalin(routes), ((server, client) -> {
+        JavalinTest.test(App.javalin(routes, List.of()), ((server, client) -> {
             Response response = client.get("/service/info");
             assertEquals(200, response.code());
 
