@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.time.Clock;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -56,8 +57,9 @@ public class App {
 
             javalinConfig.bundledPlugins.enableCors(cors -> {
                 cors.addRule(rule -> {
-                    rule.allowHost("http://localhost:5173", "http://localhost:3000", "*.ruchij.com");
-                    rule.allowHost("*.ruchij.com", allowedOrigins.toArray(String[]::new));
+                    List<String> allAllowedOrigins = new ArrayList<String>(allowedOrigins);
+                    allAllowedOrigins.addAll(List.of("http://localhost:5173", "http://localhost:3000"));
+                    rule.allowHost("*.ruchij.com", allAllowedOrigins.toArray(String[]::new));
                     rule.allowCredentials = true;
                 });
             });
