@@ -14,11 +14,17 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.time.Clock;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 public class App {
+    private static final List<String> DEFAULT_ALLOWED_ORIGINS = List.of(
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "https://*.ruchij.com",
+        "https://*.home.ruchij.com"
+    );
+
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) throws IOException {
@@ -57,10 +63,8 @@ public class App {
 
             javalinConfig.bundledPlugins.enableCors(cors -> {
                 cors.addRule(rule -> {
-                    List<String> allAllowedOrigins = new ArrayList<String>(allowedOrigins);
-                    allAllowedOrigins.addAll(List.of("http://localhost:5173", "http://localhost:3000"));
-
-                    rule.allowHost("*.ruchij.com", allAllowedOrigins.toArray(String[]::new));
+                    DEFAULT_ALLOWED_ORIGINS.forEach(rule::allowHost);
+                    allowedOrigins.forEach(rule::allowHost);
 
                     rule.allowCredentials = true;
                 });
