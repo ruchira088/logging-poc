@@ -1,10 +1,10 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: javalin-seed-certificate
+  name: logging-poc-certificate
   namespace: {{ namespace }}
 spec:
-  secretName: javalin-seed-tls
+  secretName: logging-poc-tls
   issuerRef:
     kind: ClusterIssuer
     name: lets-encrypt

@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: javalin-seed-deployment
+  name: logging-poc-deployment
   namespace: {{ namespace }}
 spec:
   selector:
     matchLabels:
-      app: javalin-seed
+      app: logging-poc
       branch: {{ git_branch }}
   replicas: 1
   template:
     metadata:
       labels:
-        app: javalin-seed
+        app: logging-poc
         branch: {{ git_branch }}
     spec:
       containers:
-        - name: javalin-seed-api-container
-          image: ghcr.io/ruchira088/javalin-seed-api:{{ git_branch }}-{{ git_commit }}
+        - name: logging-poc-api-container
+          image: ghcr.io/ruchira088/logging-poc-api:{{ git_branch }}-{{ git_commit }}
           envFrom:
             - configMapRef:
-                name: javalin-seed-data-config-map
+                name: logging-poc-data-config-map
             - secretRef:
-                name: javalin-seed-secrets
+                name: logging-poc-secrets
           readinessProbe:
             httpGet:
               port: javalin-port
@@ -55,7 +55,7 @@ spec:
       volumes:
         - name: file-config-map
           configMap:
-            name: javalin-seed-file-config-map
+            name: logging-poc-file-config-map
       imagePullSecrets:
         - name: docker-registry-credentials
 

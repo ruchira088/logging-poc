@@ -1,11 +1,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: javalin-seed-ingress
+  name: logging-poc-ingress
   namespace: {{ namespace }}
 spec:
   tls:
-    - secretName: javalin-seed-tls
+    - secretName: logging-poc-tls
       hosts:
         - {{ hostname }}
   rules:
@@ -15,6 +15,6 @@ spec:
           - pathType: ImplementationSpecific
             backend:
               service:
-                name: javalin-seed-service
+                name: logging-poc-service
                 port:
                   name: javalin-port

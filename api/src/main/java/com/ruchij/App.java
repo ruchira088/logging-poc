@@ -2,6 +2,7 @@ package com.ruchij;
 
 import com.ruchij.config.ApplicationConfiguration;
 import com.ruchij.service.health.HealthServiceImpl;
+import com.ruchij.service.joke.JokeServiceImpl;
 import com.ruchij.utils.JsonUtils;
 import com.ruchij.web.Routes;
 import com.ruchij.web.middleware.ExceptionMapper;
@@ -9,6 +10,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import io.javalin.Javalin;
 import io.javalin.json.JavalinJackson;
+import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,8 +78,11 @@ public class App {
 
     private static Routes routes(ApplicationConfiguration applicationConfiguration, Properties properties, Clock clock)
         throws IOException {
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        JokeServiceImpl jokeService = new JokeServiceImpl(okHttpClient);
         HealthServiceImpl healthService = HealthServiceImpl.create(clock, properties);
 
-        return new Routes(healthService);
+        return new Routes(jokeService, healthService);
     }
 }
