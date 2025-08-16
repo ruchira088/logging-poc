@@ -76,7 +76,11 @@ public class App {
         });
     }
 
-    private static Routes routes(ApplicationConfiguration applicationConfiguration, Properties properties, Clock clock)
+    private static Routes routes(
+        ApplicationConfiguration applicationConfiguration,
+        Properties properties,
+        Clock clock
+    )
         throws IOException {
         OkHttpClient okHttpClient = new OkHttpClient();
 

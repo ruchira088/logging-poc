@@ -1,16 +1,7 @@
-<configuration scan="true" scanPeriod="10 seconds">
+<configuration>
     <appender name="STD_OUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%date{ISO8601} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashAccessTcpSocketAppender">
-        <destination>localhost:5001</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <includeContext>true</includeContext>
-            <includeMdc>true</includeMdc>
-            <customFields>{"application": "logging-poc"}</customFields>
         </encoder>
     </appender>
 
@@ -18,12 +9,7 @@
         <appender-ref ref="STD_OUT"/>
     </appender>
 
-    <logger name="com.ruchij" level="TRACE" additivity="false">
-        <appender-ref ref="ASYNC"/>
-<!--        <appender-ref ref="LOGSTASH"/>-->
-    </logger>
     <root level="WARN">
         <appender-ref ref="ASYNC"/>
-<!--        <appender-ref ref="LOGSTASH"/>-->
     </root>
 </configuration>
