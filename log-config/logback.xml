@@ -10,7 +10,13 @@
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <includeContext>true</includeContext>
             <includeMdc>true</includeMdc>
-            <customFields>{"application": "logging-poc", "gitBranch": "${GIT_BRANCH:-unknown}", "gitCommit": "${GIT_COMMIT:-unknown}"}</customFields>
+            <customFields>
+                {
+                    "application": "logging-poc",
+                    "gitBranch": "${GIT_BRANCH:-unknown}",
+                    "gitCommit": "${GIT_COMMIT:-unknown}"
+                }
+            </customFields>
         </encoder>
     </appender>
 
