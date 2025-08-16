@@ -6,11 +6,11 @@
     </appender>
 
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashAccessTcpSocketAppender">
-        <destination>localhost:5001</destination>
+        <destination>logstash:5001</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <includeContext>true</includeContext>
             <includeMdc>true</includeMdc>
-            <customFields>{"application": "logging-poc"}</customFields>
+            <customFields>{"application": "logging-poc", "gitBranch": "${GIT_BRANCH:-unknown}", "gitCommit": "${GIT_COMMIT:-unknown}"}</customFields>
         </encoder>
     </appender>
 

@@ -1,12 +1,12 @@
 services:
-#  api:
-#    image: ghcr.io/ruchira088/logging-poc-api:dev
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - logstash
-#    volumes:
-#      - ./log-config:/opt/data
+  api:
+    image: ghcr.io/ruchira088/logging-poc-api:dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      - logstash
+    volumes:
+      - ./log-config:/opt/data
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:9.1.0
