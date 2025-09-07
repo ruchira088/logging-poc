@@ -2,6 +2,7 @@ package com.ruchij;
 
 import com.ruchij.config.ApplicationConfiguration;
 import com.ruchij.service.health.HealthServiceImpl;
+import com.ruchij.service.health.models.BuildInformation;
 import com.ruchij.service.joke.JokeServiceImpl;
 import com.ruchij.utils.JsonUtils;
 import com.ruchij.web.Routes;
@@ -29,14 +30,14 @@ public class App {
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Config config = ConfigFactory.load();
         ApplicationConfiguration applicationConfiguration = ApplicationConfiguration.parse(config);
 
         run(applicationConfiguration);
     }
 
-    public static void run(ApplicationConfiguration applicationConfiguration) throws IOException {
+    public static void run(ApplicationConfiguration applicationConfiguration) {
         Properties properties = System.getProperties();
         Clock clock = Clock.systemUTC();
 
@@ -80,12 +81,12 @@ public class App {
         ApplicationConfiguration applicationConfiguration,
         Properties properties,
         Clock clock
-    )
-        throws IOException {
+    ) {
+        BuildInformation buildInformation = BuildInformation.create();
         OkHttpClient okHttpClient = new OkHttpClient();
 
         JokeServiceImpl jokeService = new JokeServiceImpl(okHttpClient);
-        HealthServiceImpl healthService = HealthServiceImpl.create(clock, properties);
+        HealthServiceImpl healthService = new HealthServiceImpl(clock, properties, buildInformation);
 
         return new Routes(jokeService, healthService);
     }
